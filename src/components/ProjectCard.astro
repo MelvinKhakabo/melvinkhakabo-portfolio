@@ -1,0 +1,50 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props { project: Project }
+const { project: p } = Astro.props;
+
+const statusClass = {
+  Live: 'status-live',
+  'In progress': 'status-progress',
+  Report: 'status-report',
+}[p.status];
+---
+<article class="card" data-category={p.category} id={p.slug}>
+  <div class="thumb" style={`background:${p.image ? 'var(--ink)' : '#1e2a3a'}`}>
+    <div class="browser">
+      <div class="browser-bar" aria-hidden="true">
+        <i></i><i></i><i></i><span>{p.domain}</span>
+      </div>
+      {p.image ? (
+        <img src={p.image} alt={p.imageAlt ?? p.title} width="1280" height="591" loading="lazy" decoding="async" />
+      ) : (
+        <div class="text-thumb">
+          <small>{p.thumbKicker}</small>
+          <strong>{p.thumbLine}</strong>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div class="card-body">
+    <div class="card-meta">
+      <span class="cat">{p.categoryLabel} · {p.year}</span>
+      <span class={`status ${statusClass}`}>{p.status}</span>
+    </div>
+    <h3>{p.title}</h3>
+    <p class="role">{p.role}</p>
+    <p class="summary">{p.summary}</p>
+    <div class="chips">
+      {p.stack.map((s) => <span class="chip">{s}</span>)}
+    </div>
+
+    {p.caseStudy ? (
+      <a class="card-link primary" href={p.caseStudy}>Read the case study →</a>
+    ) : p.link ? (
+      <a class="card-link" href={p.link.href} rel="noopener">{p.link.label}</a>
+    ) : (
+      <p class="card-note">Summary available on request</p>
+    )}
+  </div>
+</article>

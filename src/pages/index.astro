@@ -1,0 +1,271 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../data/site';
+import { projects, categories } from '../data/projects';
+import { experience, experienceGroups } from '../data/experience';
+import { talks, community, degree, certifications } from '../data/credentials';
+
+const countFor = (id: string) =>
+  id === 'all' ? projects.length : projects.filter((p) => p.category === id).length;
+
+const pillars = [
+  {
+    num: '01',
+    title: 'Web platforms',
+    body: 'Fast, server-rendered websites and platforms with a content model the client’s team can run, built for search engines and AI search from day one.',
+    chips: ['React', 'TypeScript', 'Astro', 'Supabase', 'SEO'],
+  },
+  {
+    num: '02',
+    title: 'AI systems',
+    body: 'Multi-agent workflows and LLM features that solve a specific job, with evaluation built in so you can trust what they produce.',
+    chips: ['Google ADK', 'Prompting', 'LLM eval', 'Python'],
+  },
+  {
+    num: '03',
+    title: 'Research & data',
+    body: 'Survey design, large-scale field data collection and analysis: the discovery work that tells you what to build and why.',
+    chips: ['Kobo Collect', 'R', 'SQL', 'Field teams'],
+  },
+];
+---
+<Base title="Melvin Khakabo · Software & AI Engineer, Nairobi">
+  <!-- HERO -->
+  <section class="container hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <div class="hero-meta">
+        <span class="label">SOFTWARE &amp; AI ENGINEER · NAIROBI, KENYA</span>
+        <span class="badge">Open to consulting &amp; engineering roles</span>
+      </div>
+      <h1 id="hero-title">
+        I build websites, platforms and AI systems that people can <span>find, use and run</span> themselves.
+      </h1>
+      <p class="hero-lead">
+        Full-stack and AI engineer with a background in research and data. I work with African
+        organisations to turn what they do into clear, fast, discoverable digital products, and hand
+        them over in a state their teams can manage.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-dark" href="#work">See selected work</a>
+        <a class="btn btn-outline" href={site.cv.engineering} download>Download CV</a>
+      </div>
+      <div class="hero-links">
+        <a href={site.links.linkedin} rel="me">LinkedIn ↗</a>
+        <a href={site.links.github} rel="me">GitHub ↗</a>
+        <a href={`mailto:${site.email}`}>Email me ↗</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <!-- Photo lives at /public/images/melvin.jpg (portrait, 4:5, under ~300 KB) -->
+      <div class="frame frame-photo">
+        <img
+          src="/images/melvin.jpg"
+          alt="Melvin Khakabo, software and AI engineer in Nairobi"
+          width="760"
+          height="950"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF STRIP -->
+  <section class="proof" aria-label="At a glance">
+    <div class="container">
+      <p><strong>5+ yrs</strong><span>shipping production software since 2021</span></p>
+      <p><strong>500+</strong><span>participants served by programmes I run</span></p>
+      <p><strong>500</strong><span>national WASH surveys designed and delivered</span></p>
+      <p><strong>2</strong><span>countries · Nairobi &amp; Lagos programmes</span></p>
+    </div>
+  </section>
+
+  <!-- WHAT I DO -->
+  <section class="container section" aria-labelledby="what-title">
+    <div class="section-head">
+      <span class="eyebrow">What I do</span>
+      <h2 id="what-title">Three disciplines, one way of working: understand the organisation first, then build.</h2>
+    </div>
+    <div class="grid-3">
+      {pillars.map((p) => (
+        <div class="pillar">
+          <span class="num">{p.num}</span>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+          <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="container section" aria-labelledby="work-title" style="padding-top:48px">
+    <div class="work-head">
+      <div class="section-head">
+        <span class="eyebrow">Selected work</span>
+        <h2 id="work-title">A sample of recent work</h2>
+        <p>Selected projects across web, AI and research. More on <a href={site.links.github}>GitHub</a> or on request.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filter projects">
+        {categories.map((c, i) => (
+          <button type="button" data-filter={c.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {c.label}<span class="count">{countFor(c.id)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+    <div class="work-grid">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="band" aria-labelledby="exp-title">
+    <div class="container section exp">
+      <div class="exp-side">
+        <div class="section-head" style="margin-bottom:16px">
+          <span class="eyebrow">Experience</span>
+          <h2 id="exp-title">Where I’ve worked</h2>
+        </div>
+        <div class="exp-tabs" role="tablist" aria-label="Experience type">
+          {experienceGroups.map((g, i) => (
+            <button
+              type="button" role="tab" id={`tab-${g.id}`} aria-controls={`panel-${g.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}
+            >
+              {g.label}
+              <span class="count">{String(experience.filter((e) => e.group === g.id).length).padStart(2, '0')}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="exp-main">
+        {experienceGroups.map((g) => (
+          <div class="exp-panel" role="tabpanel" id={`panel-${g.id}`} aria-labelledby={`tab-${g.id}`}>
+            <h3 class="exp-group-title">{g.label}</h3>
+            {experience.filter((e) => e.group === g.id).map((e) => (
+              <div class="exp-item">
+                <div class="dates">{e.dates}</div>
+                <div class="detail">
+                  <h3>{e.role}</h3>
+                  <p class="org">{e.org}</p>
+                  <ul>{e.points.map((pt) => <li>{pt}</li>)}</ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TALKS & COMMUNITY -->
+  <section id="talks" class="container section" aria-labelledby="talks-title">
+    <div class="section-head">
+      <span class="eyebrow">Talks, workshops &amp; programmes</span>
+      <h2 id="talks-title">Teaching and speaking</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">DATE</th><th scope="col">EVENT</th><th scope="col">ROLE</th><th scope="col">TOPIC</th></tr>
+        </thead>
+        <tbody>
+          {talks.map((t) => (
+            <tr>
+              <td class="date">{t.date}</td>
+              <td class="event">{t.event}</td>
+              <td>{t.role}</td>
+              <td>{t.topic}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="grid-3 dark-cards">
+      {community.map((c) => (
+        <div class="dark-card">
+          <small>{c.kicker}</small>
+          <h3>{c.title}</h3>
+          <p>{c.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="container section" aria-labelledby="edu-title" style="padding-top:48px">
+    <div class="section-head">
+      <span class="eyebrow">Education</span>
+      <h2 id="edu-title">Degree and certifications</h2>
+    </div>
+    <div class="edu">
+      <div class="degree">
+        <small>DEGREE · {degree.year}</small>
+        <h3>{degree.name}</h3>
+        <p>{degree.school}</p>
+        <p class="note">{degree.note}</p>
+      </div>
+      <div class="certs">
+        {certifications.map((c) => (
+          <div class="cert">
+            <strong>{c.name}</strong>
+            <span>{c.issuer} · {c.year}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="contact-copy">
+        <h2 id="contact-title">Have a website, platform or AI project in mind?</h2>
+        <p>I usually reply within a day.</p>
+      </div>
+      <div class="contact-actions">
+        <a class="btn btn-light" href={`mailto:${site.email}`}>Email me</a>
+        <a class="btn btn-ghost" href={site.cv.engineering} download>Download CV · Engineering</a>
+        <a class="btn btn-ghost" href={site.cv.research} download>Download CV · Research</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Work filters: show only cards in the chosen category.
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('.card[data-category]');
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      filterButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      cards.forEach((c) => (c.hidden = f !== 'all' && c.dataset.category !== f));
+    });
+  });
+
+  // Experience tabs (accessible tablist with arrow-key support).
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+  const panels = document.querySelectorAll<HTMLElement>('[role="tabpanel"]');
+  function select(tab: HTMLButtonElement) {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((p) => (p.hidden = p.id !== tab.getAttribute('aria-controls')));
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      const next = tabs[(i + d + tabs.length) % tabs.length];
+      next.focus();
+      select(next);
+    });
+  });
+  if (tabs[0]) select(tabs[0]);
+</script>

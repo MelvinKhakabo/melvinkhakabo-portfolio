@@ -1,0 +1,14 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <span>© {year} {site.name} · {site.location}</span>
+    <nav aria-label="Social">
+      <a href={site.links.linkedin} rel="me">LinkedIn</a>
+      <a href={site.links.github} rel="me">GitHub</a>
+      <a href={`mailto:${site.email}`}>Email</a>
+    </nav>
+  </div>
+</footer>

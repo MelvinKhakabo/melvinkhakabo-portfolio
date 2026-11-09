@@ -1,0 +1,139 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const meta = [
+  { k: 'Client', v: 'Learning Sprouts → The Learning Quarter' },
+  { k: 'My role', v: 'Lead developer (in-house)' },
+  { k: 'Markets', v: 'Nairobi, Kenya · Lagos, Nigeria' },
+  { k: 'Timeline', v: '2025 – 2026' },
+  { k: 'Status', v: 'Platform live · migration in progress' },
+];
+
+const steps = [
+  { n: '01', title: 'Discovery', body: 'Gathered reference sites from leadership, mapped every existing page and app, and agreed the target: a sleek, premium site with an African touch in the brand colours, under one name.' },
+  { n: '02', title: 'Information architecture', body: 'Restructured content around the new Youth, Professional and Consulting divisions and agreed a single sitemap before any design work.' },
+  { n: '03', title: 'Wireframes, then visuals', body: 'Wireframed every page and got the structure approved first; colour, typography and photography came after, so design debates never blocked structure.' },
+  { n: '04', title: 'Build', body: 'Built the registration platform in React and TypeScript on Supabase, with Paystack payments and transactional email, deployed on Vercel. The new brand site is built in Astro.' },
+  { n: '05', title: 'Domain migration', body: 'Moving every property to thelearningquarter.co subdomains (PUMaC Africa first as the pilot, then the rest) with notices on the old addresses so no family hits a dead link.' },
+];
+
+const sitemap = ['Home', 'About / Our Story', 'Our Pedagogy', 'Results & Credibility', 'Programs', 'PUMaC Africa', 'Events & Updates', 'Our Team', 'Locations', 'Admissions', 'Careers', 'Contact', 'Policies', 'Blog / Resources'];
+
+const stack = [
+  { k: 'Brand site', v: 'Astro · Cloudflare' },
+  { k: 'Platform', v: 'Vite · React · TypeScript' },
+  { k: 'Styling', v: 'Tailwind v4' },
+  { k: 'Data & auth', v: 'Supabase + edge functions' },
+  { k: 'Payments', v: 'Paystack · M-Pesa · USD card' },
+  { k: 'Email · Hosting', v: 'Resend · Vercel' },
+];
+
+const title = 'The Learning Quarter: from three sites to one platform · Case study';
+const description = 'How Melvin Khakabo led discovery, information architecture, build and domain migration for The Learning Quarter, a learning company in Nairobi and Lagos.';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: 'The Learning Quarter: rebuilding a fragmented web presence',
+    description,
+    creator: { '@id': new URL('/#person', Astro.site).href },
+    about: { '@type': 'Organization', name: 'The Learning Quarter', alternateName: 'Learning Sprouts' },
+    dateCreated: '2025',
+    keywords: 'web development, rebrand, information architecture, domain migration, payments, Supabase, Paystack, M-Pesa',
+  },
+];
+---
+<Base title={title} description={description} schema={schema}>
+  <section class="container cs-title">
+    <span class="eyebrow">Case study · Web development</span>
+    <h1>From three disconnected sites to one platform: rebuilding The Learning Quarter</h1>
+    <p>
+      Learning Sprouts, a future-skills training provider in Nairobi and Lagos, was rebranding as The
+      Learning Quarter. Its web presence was split across a drag-and-drop builder and two separate
+      React apps. I led the discovery, the information architecture and the rebuild.
+    </p>
+  </section>
+
+  <section class="container">
+    <dl class="meta-grid">
+      {meta.map((m) => (<div><dt>{m.k}</dt><dd>{m.v}</dd></div>))}
+    </dl>
+  </section>
+
+  <section class="container cs-hero">
+    <div class="stage">
+      <div class="browser">
+        <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>youthprograms.thelearningquarter.co</span></div>
+        <img src="/images/work/tlq-youth-programs.jpg" alt="The Learning Quarter Youth Programs registration platform homepage" width="1280" height="591" />
+      </div>
+    </div>
+  </section>
+
+  <section class="container split" aria-labelledby="problem">
+    <h2 id="problem">The problem</h2>
+    <div>
+      <p class="lead">
+        The brand lived in three places, each with its own stack and design language: a marketing site
+        on Hostinger’s builder, a programmes registration app, and a separate Lagos holiday-camp app.
+        Parents met a different organisation at every step, and staff couldn’t update any of it without a developer.
+      </p>
+      <div class="mini-grid">
+        <div class="mini"><small>SITE 1</small><strong>learningsprouts.school</strong><span>Hostinger drag-and-drop</span></div>
+        <div class="mini"><small>SITE 2</small><strong>programs.learningsprouts.school</strong><span>React app</span></div>
+        <div class="mini"><small>SITE 3</small><strong>Lagos summer camp</strong><span>Separate React app</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="approach">
+    <div class="container section">
+      <h2 id="approach" style="font-size:32px;margin-bottom:32px">How I approached it</h2>
+      <div class="steps">
+        {steps.map((s) => (
+          <div class="step">
+            <div class="step-head"><span class="n">{s.n}</span><h3>{s.title}</h3></div>
+            <p>{s.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="container section" aria-labelledby="sitemap-title" style="padding-bottom:48px">
+    <div class="section-head" style="margin-bottom:24px">
+      <h2 id="sitemap-title" style="font-size:32px">The agreed sitemap</h2>
+      <p>One central Programmes page replaces per-programme registration; holiday camp keeps its own landing page.</p>
+    </div>
+    <ul class="pills">{sitemap.map((p) => <li>{p}</li>)}</ul>
+  </section>
+
+  <section class="container row" style="padding-block:48px">
+    <div class="stack-card">
+      <small>STACK</small>
+      <dl>{stack.map((s) => (<div><dt>{s.k}</dt><dd>{s.v}</dd></div>))}</dl>
+    </div>
+    <div class="decision">
+      <small>KEY DECISION</small>
+      <h3>Two payment rails, one checkout</h3>
+      <p>
+        Families in Kenya pay by M-Pesa; international families pay by card in USD. Both run through
+        Paystack behind one registration flow, with Supabase edge functions confirming payment and Resend
+        sending the receipt, so the team sees one list of registrations, not two.
+      </p>
+    </div>
+  </section>
+
+  <section class="container section" aria-labelledby="outcome" style="padding-top:48px">
+    <h2 id="outcome" style="font-size:32px;margin-bottom:28px">Outcome</h2>
+    <div class="outcomes">
+      <div class="outcome"><strong>3 → 1</strong><span>brand, design language and domain</span></div>
+      <div class="outcome"><strong>2</strong><span>payment rails: M-Pesa and USD card</span></div>
+      <div class="outcome"><strong>2</strong><span>markets served: Nairobi and Lagos</span></div>
+    </div>
+    <div class="actions">
+      <a class="btn btn-dark" href="https://youthprograms.thelearningquarter.co/" rel="noopener">Visit the live platform ↗</a>
+      <a class="btn btn-outline" href="/#work">Back to all work</a>
+    </div>
+  </section>
+</Base>
