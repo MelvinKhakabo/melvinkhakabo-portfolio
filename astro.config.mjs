@@ -6,6 +6,6 @@ import sitemap from '@astrojs/sitemap';
 // It is used for canonical links, Open Graph tags and sitemap.xml.
 // Change it if Vercel gives you a different address.
 export default defineConfig({
-  site: 'https://melvinkhakabo.vercel.app',
+  site: 'https://melvinkhakabo-portfolio.vercel.app',
   integrations: [sitemap()],
 });
